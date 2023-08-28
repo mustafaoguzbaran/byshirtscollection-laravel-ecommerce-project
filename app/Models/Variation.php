@@ -15,8 +15,13 @@ class Variation extends Model
         'update_at'
     ];
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class);
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
     }
 }

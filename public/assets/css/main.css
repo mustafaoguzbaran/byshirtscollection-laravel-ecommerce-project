@@ -18,12 +18,13 @@ table {
 }
 
 th, td {
-    border: 1px solid #ffc107;
+    border: 1px solid #dadada;
     padding: 8px;
 }
 
 th {
-    background-color: #ffc107;
+    color: #000000;
+    background-color: #dadada;
     font-weight: bold;
 }
 
@@ -37,13 +38,13 @@ img {
 
 /* Bağlantılar */
 a {
-    color: #ffc107;
+    color: #dadada;
     text-decoration: none;
 }
 
 /* Alıntılar */
 blockquote {
-    border-left: 5px solid #ffc107;
+    border-left: 5px solid #dadada;
     padding-left: 1em;
     margin: 1em 0;
     font-style: italic;
@@ -73,7 +74,7 @@ code {
 .note {
     background-color: #fffcf0;
     padding: 1em;
-    border: 1px solid #ffd54f;
+    border: 1px solid #dadada;
 }
 
 body {
@@ -87,12 +88,12 @@ body {
 a {text-decoration: none; text-shadow: 2px 2px; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);}
 .card.headbar{box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; font-size: 15px; padding: 7px;border: none; border-radius: 0;  color: white; }
 .notice{text-align: center}
-.user {margin-top: 40px; padding: 10px; border-radius: 15px; color: white; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; text-align: center; border: 2px solid #ffc107;}
+.user {margin-top: 40px; padding: 10px; border-radius: 15px; color: white; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; text-align: center; border: 2px solid #dadada;}
 .logout{margin-left: 70px}
 .logo {}
 .byshirts-cart {margin-top: 40px; text-align: center; padding: 15px; border-radius:15px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; border: 2px solid #198754}
 ul.navbar-nav {text-align: center;}
-nav {margin-top: 20px; border-bottom: 2px solid #ffc107; border-top: 2px solid #ffc107;}
+nav {margin-top: 20px; border-bottom: 2px solid #dadada; border-top: 2px solid #dadada;}
 a.nav-link{color: #ffffff; text-align: center;}
 .menu-button{color: white; border-radius: 10px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;}
 .navbar-toggler {
@@ -103,7 +104,7 @@ a.nav-link{color: #ffffff; text-align: center;}
 div.carousel-item{height: 500px;}
 .button-53 {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;;
-    background-color: #ffc107;
+    background-color: #dadada;
     border: 0 solid #E5E7EB;
     box-sizing: border-box;
     color: black;
@@ -122,7 +123,6 @@ div.carousel-item{height: 500px;}
     max-width: 460px;
     position: relative;
     cursor: pointer;
-    transform: rotate(-2deg);
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
@@ -153,11 +153,11 @@ div.carousel-item{height: 500px;}
         font-size: 1.25rem;
     }
 }
-.look {border-top: 2px solid #ffc107; border-bottom: 2px solid #ffc107;}
+.look {border-top: 2px solid #dadada; border-bottom: 2px solid #dadada;}
 .ads
 {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
-    background-color: #ffc107;
+    background-color: #dadada;
     border-radius: 5px;
     box-sizing: border-box;
     color: black;
@@ -178,7 +178,7 @@ div.carousel-item{height: 500px;}
 }
 .product_card{margin-top: 30px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;}
 .card-header.bg-success{text-align: center; border: none}
-.price-badge{background-color: #ffbd27; margin: 10px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; border: 2px solid #198754}
+.price-badge{background-color: #dadada; margin: 10px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px; border: 2px solid #198754}
 span.price-badge.main-page-price{padding: 10px; border-radius: 5px;}
 .product-img {
     text-align: center;
@@ -193,7 +193,7 @@ span.price-badge.main-page-price{padding: 10px; border-radius: 5px;}
     margin-bottom: -135px;
     margin-top: 50px;
     position: relative;
-    background: #ffc107;
+    background: #dadada;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     z-index: 1;
 }
@@ -293,5 +293,25 @@ span.price-badge.main-page-price{padding: 10px; border-radius: 5px;}
     }
 }
 .card-footer{text-align: center}
+.product-img{border-radius: 10px;}
+.img-magnifier-container {
+    position:relative;
+}
 
-
+.img-magnifier-glass {
+    display: none; /* Başlangıçta gizli olacak */
+    position: absolute;
+    border: 3px solid #dadada;
+    border-radius: 50%;
+    cursor: none;
+    /* Set the size of the magnifier glass: */
+    width: 150px;
+    height: 150px;
+}
+.btn{background-color: #dadada; color: #000000}
+.byshirts-cart{background-color: #dadada}
+.menu-button{background-color: #dadada}
+.btn:hover{background-color: #000000; color: #dadada}
+.byshirts-cart:hover {background-color: #000000; color: #dadada }
+.byshirts-cart a {color: #000000}
+.dropdown-item:focus, .dropdown-item:hover{color: #ffffff; background-color: #198754}

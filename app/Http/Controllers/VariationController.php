@@ -12,9 +12,4 @@ class VariationController extends Controller
         $variationData = Variation::all();
         return view("backoffice.all-variation", compact("variationData"));
     }
-    public function create(Request $request) {
-        $createVariationData = [
-            ""
-        ];
-    }
 }

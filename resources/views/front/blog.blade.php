@@ -1,9 +1,15 @@
 @extends("layouts.index")
+@section("title")
+    Blog | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")
     <div class="container">
         <div class="row">
+            @if($getBlogData->isEmpty() == true)
+                <div class="text-success h1 text-center" style="margin-top: 240px">Burada hiç bir ürün bulunamadı!</div>
+            @else
             @foreach($getBlogData as $item)
             <div class="col-lg-6">
                 <div class="product">
@@ -28,23 +34,7 @@
                 </div>
             </div>
             @endforeach
-            <section class="deneb_cta">
-                <div class="cta_wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-lg-7">
-                            <div class="cta_content">
-                                <h3>Biz Kimiz?</h3>
-                                <p>2021 yılında kendi tasarımımız ve üretimimiz olan gömleklerimizi satışa sunmaya başladık. İleri ki yıllarımızda da en iyi tasarımlarımızla ve üretimlerimizle sizlerin karşısına çıkmaktan onur duyuyoruz.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-5">
-                            <div class="button_box">
-                                <a href="https://byshirtscollection.com/iletisim/" class="btn btn-success">Bizimle iletişim kur</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            @endif
         </div>
     </div>
 @endsection

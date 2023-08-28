@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+   Rengi Düzenle | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")

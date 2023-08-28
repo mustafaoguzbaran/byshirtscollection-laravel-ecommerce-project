@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Alışveriş Yapmak İçin Üye Ol | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")
@@ -36,14 +39,6 @@
                         <div class="mb-3">
                             <label class="form-label">Telefon Numarası</label>
                             <input name="register_phone" placeholder="telefon numaranızı girer misiniz?" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Yaşadığınız Şehir</label>
-                            <input name="register_city" placeholder="yaşadığınız şehri girer misiniz?" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Yaşadığınız İlçe</label>
-                            <input name="register_district" placeholder="yaşadığınız ilçeyi girer misiniz?" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tam Adres</label>

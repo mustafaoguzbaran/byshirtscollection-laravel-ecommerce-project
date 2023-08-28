@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class BlogController extends Controller
         return view("backoffice.add-blog");
     }
 
-    public function store(Request $request)
+    public function store(BlogRequest $request)
     {
         $createPostData = [
             "title" => $request->create_post_title,
@@ -55,6 +56,29 @@ class BlogController extends Controller
     {
         $getBlogData = Blog::where("slug", $request->slug)->first();
         return view("front.show-blog", compact("getBlogData"));
+    }
+
+    public function edit(Request $request)
+    {
+        $blogData = Blog::where("id", $request->id)->first();
+        return view("backoffice.edit-blog", compact("blogData"));
+    }
+
+    public function update(Request $request)
+    {
+        $blogData = [
+            "title" => $request->edit_post_title,
+            "content" => $request->edit_post_content,
+            "slug" => Str::slug($request->title)
+        ];
+        if ($request->edit_post_featured_image) {
+            $image = $request->file("edit_post_featured_image");
+            $imageName = time() . "-" . $image->getClientOriginalName();
+            $image->storeAs("featured_images", $imageName, "public");
+            $blogData["featured_image"] = "storage/featured_images/" . $imageName;
+        }
+        Blog::where("id", $request->id)->update(array_filter($blogData));
+        return redirect()->route("blog.edit", ["id" => $request->id]);
     }
 
     public function destroy(Request $request)

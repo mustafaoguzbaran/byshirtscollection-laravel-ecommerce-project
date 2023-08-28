@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Alışveriş Yapmak İçin Giriş Yap | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")
@@ -19,11 +22,11 @@
                         @method("POST")
                         <div class="mb-3">
                             <label class="form-label">Kullanıcı Adı</label>
-                            <input name="login_username" placeholder="kullanıcı adınızı girer misiniz?" type="text" class="form-control">
+                            <input name="username" placeholder="kullanıcı adınızı girer misiniz?" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Şifre</label>
-                            <input name="login_password" placeholder="şifrenizi girer misiniz?" type="password" class="form-control">
+                            <input name="password" placeholder="şifrenizi girer misiniz?" type="password" class="form-control">
                         </div>
                         <center><button type="submit" class="btn btn-warning">Giriş Yap!</button></center>
                     </form>

@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Tüm Bloglar | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")
@@ -29,7 +32,7 @@
                                 <td>{{$blog->created_at}}</td>
                                 <td>{{$blog->updated_at}}</td>
                                 <td>
-                                    <form action="#" method="GET">
+                                    <form action="{{route("blog.edit", ["id" => $blog->id])}}" method="GET">
                                         @csrf
                                         <button type="submit" class="btn btn-warning" style="margin-top:5px;">
                                             Düzenle

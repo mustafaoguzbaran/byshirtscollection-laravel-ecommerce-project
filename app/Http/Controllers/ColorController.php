@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ColorRequest;
 use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,7 +20,7 @@ class ColorController extends Controller
         return view("backoffice.add-color");
     }
 
-    public function store(Request $request)
+    public function store(ColorRequest $request)
     {
         $createColorData = [
             "name" => $request->create_product_color_name,

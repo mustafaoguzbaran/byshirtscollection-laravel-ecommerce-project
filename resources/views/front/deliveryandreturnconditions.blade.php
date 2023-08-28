@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Teslimat ve İade Şartları | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")

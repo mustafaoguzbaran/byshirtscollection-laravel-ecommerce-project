@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    {{$getBlogData->title}} | By Shirts Collection
+@endsection
 @section("css")
 
 @endsection

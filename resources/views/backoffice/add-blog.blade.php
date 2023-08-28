@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Blog Yazısı Ekle | By Shirts Collection
+@endsection
 @section("css")
     @endsection
 @section("content")
@@ -10,6 +13,11 @@
                         Blog Yazısı Ekle
                     </div>
                     <div class="card-body bg-success">
+                        @if($errors->any())
+                            @foreach($errors->all() as $error)
+                                <div class="alert alert-danger">{{$error}}</div>
+                            @endforeach
+                        @endif
                         <form method="post" action="{{route("blog.store")}}" enctype="multipart/form-data">
                             @csrf
                             @method("POST")

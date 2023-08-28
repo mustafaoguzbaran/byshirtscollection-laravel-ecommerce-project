@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -14,12 +15,19 @@ class CategoryController extends Controller
         return view("backoffice.all-category", compact("categoryData"));
     }
 
+    public function show(Request $request)
+    {
+        $category = Category::where("slug", $request->slug)->firstOrFail();
+        $products = $category->products()->orderBy("created_at", "desc")->get();
+        return view("front.category", compact("products"));
+    }
+
     public function create()
     {
         return view("backoffice.add-category");
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         $createCategoryData = [
             "name" => $request->create_product_category_name,

@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Üyelik Sözleşmesi ve Kullanım Koşulları | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")

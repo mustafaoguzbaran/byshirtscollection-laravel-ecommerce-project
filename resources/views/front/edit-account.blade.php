@@ -1,4 +1,7 @@
 @extends("layouts.index")
+@section("title")
+    Hesabım | By Shirts Collection
+@endsection
 @section("css")
 @endsection
 @section("content")
@@ -19,35 +22,27 @@
                         @method("POST")
                         <div class="mb-3">
                             <label class="form-label">İsminiz</label>
-                            <input name="update_name" value="{{$getUserData->name}}"  type="text" class="form-control">
+                            <input name="update_name" value="{{$frontUserData->name}}"  type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Soyadınız</label>
-                            <input name="update_surname" value="{{$getUserData->surname}}" type="text" class="form-control">
+                            <input name="update_surname" value="{{$frontUserData->surname}}" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Kullanıcı Adı</label>
-                            <input name="update_username" value="{{$getUserData->username}}" type="text" class="form-control">
+                            <input name="update_username" value="{{$frontUserData->username}}" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">E-Posta</label>
-                            <input name="update_email" value="{{$getUserData->email}}" type="text" class="form-control">
+                            <input name="update_email" value="{{$frontUserData->email}}" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Telefon Numarası</label>
-                            <input name="update_phone" value="{{$getUserData->phone}}" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Yaşadığınız Şehir</label>
-                            <input name="update_city" value="{{$getUserData->city}}" type="text" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Yaşadığınız İlçe</label>
-                            <input name="update_district" value="{{$getUserData->district}}" type="text" class="form-control">
+                            <input name="update_phone" value="{{$frontUserData->phone}}" type="text" class="form-control">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Tam Adres</label>
-                            <textarea name="update_address" type="text" class="form-control">{{$getUserData->address}}</textarea>
+                            <textarea name="update_address" type="text" class="form-control">{{$frontUserData->address}}</textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Şifre</label>
