@@ -294,20 +294,7 @@ span.price-badge.main-page-price{padding: 10px; border-radius: 5px;}
 }
 .card-footer{text-align: center}
 .product-img{border-radius: 10px;}
-.img-magnifier-container {
-    position:relative;
-}
 
-.img-magnifier-glass {
-    display: none; /* Başlangıçta gizli olacak */
-    position: absolute;
-    border: 3px solid #dadada;
-    border-radius: 50%;
-    cursor: none;
-    /* Set the size of the magnifier glass: */
-    width: 150px;
-    height: 150px;
-}
 .btn{background-color: #dadada; color: #000000}
 .byshirts-cart{background-color: #dadada}
 .menu-button{background-color: #dadada}

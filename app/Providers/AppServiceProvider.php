@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $settingsData = Setting::where("id", 1)->first();
+       $settingsData = Setting::where("id", 1)->first();
         View::share('settingsData', $settingsData);
         view()->composer('*', function ($view) {
             if (Auth::check()) {

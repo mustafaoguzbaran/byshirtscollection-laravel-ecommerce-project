@@ -82,11 +82,11 @@
                         <div class="product" style="margin-bottom: 40px;">
                             <div class="product_card card">
                                 <div class="card-header bg-success">
-                                    <a class="product_title h5 text-white text-decoration-none">{{$product->name}}</a>
+                                    <a href="{{route("product.show", ["slug" => $product->slug."-".$product->id])}}" class="product_title h5 text-white text-decoration-none">{{$product->name}}</a>
                                 </div>
                                 <div class="card-body">
                                     <div class="product-img">
-                                        <img src="{{asset($product->featured_image)}}" width="300" height="400">
+                                        <a href="{{route("product.show", ["slug" => $product->slug."-".$product->id])}}"><img src="{{asset($product->featured_image)}}" width="300" height="400"></a>
                                     </div>
                                     <center>
                                         <span itemprop="price" style="color: black" class="price-badge main-page-price">{{$product->price}} ₺</span>
