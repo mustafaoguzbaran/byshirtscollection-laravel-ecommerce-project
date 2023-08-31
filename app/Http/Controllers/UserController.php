@@ -6,6 +6,8 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Cart;
 use App\Models\User;
+use App\Services\UserService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +16,13 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    protected UserService $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function index()
     {
         $userData = User::all();
@@ -33,9 +42,8 @@ class UserController extends Controller
     {
         $username = $request->username;
         $password = $request->password;
-        $user = User::where("username", $username)->first();
-        if ($username && Hash::check($password, $user->password)) {
-            Auth::login($user);
+
+        if ($this->userService->attemptLogin($username, $password)) {
             return redirect()->route("home");
         } else {
             return redirect()
@@ -68,22 +76,21 @@ class UserController extends Controller
 
     public function store(RegisterRequest $request)
     {
-        $createUserList = [
-            "name" => $request->register_name,
-            "surname" => $request->register_surname,
-            "username" => $request->register_username,
-            "email" => $request->register_email,
-            "phone" => $request->register_phone,
-            "address" => $request->register_address,
-            "password" => $request->register_password
-        ];
-        $user = User::create($createUserList);
-        $user->syncRoles(Role::find(2)->name);
-        $cart = new Cart();
-        $cart->user_id = $user->id;
-        $cart->total_amount = 0.00;
-        $cart->merchant_oid = time() . mt_rand();
-        $cart->save();
+        $createUserData = $request->only([
+            "register_name",
+            "register_surname",
+            "register_username",
+            "register_email",
+            "register_phone",
+            "register_address",
+            "register_password"
+        ]);
+
+        try {
+            $this->userService->attemptCreate($createUserData, $createUserData['register_username']);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
         return redirect()->route("home");
     }
 
@@ -101,44 +108,43 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $userId = Auth::user()->id;
         if (Route::is("user.update")) {
-            $updateUserList = [
-                "name" => $request->update_name,
-                "surname" => $request->update_surname,
-                "username" => $request->update_username,
-                "email" => $request->update_email,
-                "phone" => $request->update_phone,
-                "city" => $request->update_city,
-                "district" => $request->update_district,
-                "address" => $request->update_address,
-            ];
-            if ($request->update_password != null) {
-                $updateUserList['password'] = Hash::make($request->update_password);
+            $updateUserData = $request->only([
+                "update_name",
+                "update_surname",
+                "update_username",
+                "update_email",
+                "update_phone",
+                "update_city",
+                "update_district",
+                "update_address",
+                "update_password"
+            ]);
+            try {
+                $this->userService->attempUpdate($updateUserData, $request->id);
+            } catch (Exception $e) {
+                return $e->getMessage();
             }
-            User::where("id", \auth()->user()->id)
-                ->update(array_filter($updateUserList));
             return redirect()->route("user.edit");
         } elseif (Route::is("backoffice.user.update")) {
-            $updateUserList = [
-                "name" => $request->update_backoffice_user_name,
-                "surname" => $request->update_backoffice_user_surname,
-                "username" => $request->update_backoffice_user_username,
-                "email" => $request->update_backoffice_user_email,
-                "phone" => $request->update_backoffice_user_phone,
-                "city" => $request->update_backoffice_user_city,
-                "district" => $request->update_backoffice_user_district,
-                "address" => $request->update_backoffice_user_address,
-            ];
-            if ($request->update_backoffice_user_password != null) {
-                $updateUserList['password'] = Hash::make($request->update_backoffice_user_password);
+            $updateUserData = $request->only([
+                "update_backoffice_user_name",
+                "update_backoffice_user_surname",
+                "update_backoffice_user_username",
+                "update_backoffice_user_email",
+                "update_backoffice_user_phone",
+                "update_backoffice_user_address",
+                "update_backoffice_user_role",
+                "update_backoffice_user_password"
+            ]);
+            try {
+                $this->userService->attempUpdate($updateUserData, $request->id);
+            } catch (Exception $e) {
+                return $e->getMessage();
             }
-            User::where("id", $request->id)
-                ->update(array_filter($updateUserList));
-            $user = User::find($request->id);
-            $user->syncRoles(Role::find($request->update_backoffice_user_role));
             return redirect()->route("backoffice.user.edit", ['id' => $request->id]);
         }
-
     }
 
     public function destroy(Request $request)

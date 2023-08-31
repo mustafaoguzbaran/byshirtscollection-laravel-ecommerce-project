@@ -9,12 +9,21 @@ use App\Models\Image;
 use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Variation;
+use App\Services\ProductService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    protected ProductService $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     public function index()
     {
         $productData = Product::all();
@@ -30,45 +39,24 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $createProductData = [
-            "name" => $request->create_product_title,
-            "description" => $request->create_product_content,
-            "price" => $request->create_product_price,
-            "stock_quantity" => $request->create_product_stock_quantity,
-            "color_id" => $request->create_product_color,
-            "category_id" => $request->create_product_category,
-            "is_featured" => $request->is_featured,
-            "slug" => Str::slug($request->create_product_title)
-        ];
-        if ($request->create_product_featured_image) {
-            $productFeaturedImage = $request->file("create_product_featured_image");
-            $productFeaturedImageName = time() . "-" . $productFeaturedImage->getClientOriginalName();
-            $productFeaturedImage->storeAs("product_featured_images", $productFeaturedImageName, "public");
-            $createProductData["featured_image"] = "storage/product_featured_images/" . $productFeaturedImageName;
-        }
-        $product = Product::create($createProductData);
-        if ($request->create_product_images) {
-            $images = $request->file("create_product_images");
-            foreach ($images as $image) {
-                $imageName = time() . "-" . $image->getClientOriginalName();
-                $image->storeAs("product_images", $imageName, "public");
-                $img = Image::firstOrCreate(["path" => "storage/product_images/" . $imageName]);
-                $product->images()->attach($img->id);
-            }
-        }
-        if ($request->create_product_tags) {
-            $tags = explode(",", $request->create_product_tags);
-            foreach ($tags as $tagName) {
-                $tag = Tag::firstOrCreate(["name" => trim($tagName), "slug" => Str::slug($tagName)]);
-                $product->tags()->attach($tag->id);
-            }
-        }
-        if ($request->create_product_variations) {
-            $variations = explode(",", $request->create_product_variations);
-            foreach ($variations as $variationName) {
-                $variation = Variation::firstOrCreate(["name" => trim($variationName), "slug" => Str::slug($variationName)]);
-                $product->variations()->attach($variation->id);
-            }
+        $createProductData = $request->only([
+            "create_product_title",
+            "create_product_content",
+            "create_product_price",
+            "create_product_stock_quantity",
+            "create_product_color",
+            "create_product_category",
+            "is_featured",
+            "create_product_is_featured",
+            "create_product_featured_image",
+            "create_product_images",
+            "create_product_tags",
+            "create_product_variations"
+        ]);
+        try {
+            $this->productService->attemptCreate($createProductData);
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
         return redirect()->route("product.create");
     }
@@ -97,41 +85,28 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-        $product = Product::find($request->id);
-
-        if ($product) {
-            $product->variations()->detach();
-
-            $updateProductData = [
-                "name" => $request->edit_product_title,
-                "description" => $request->edit_product_content,
-                "price" => $request->edit_product_price,
-                "stock_quantity" => $request->edit_product_stock_quantity,
-                "color_id" => $request->edit_product_color,
-                "category_id" => $request->edit_product_category,
-                "is_featured" => $request->edit_is_featured,
-                "slug" => Str::slug($request->edit_product_title)
-            ];
-
-            if ($request->edit_product_featured_image) {
-                $productFeaturedImage = $request->file("edit_product_featured_image");
-                $productFeaturedImageName = time() . "-" . $productFeaturedImage->getClientOriginalName();
-                $productFeaturedImage->storeAs("product_featured_images", $productFeaturedImageName, "public");
-                $updateProductData["featured_image"] = "storage/product_featured_images/" . $productFeaturedImageName;
-            }
-            $product->update(array_filter($updateProductData));
-
-            if ($request->edit_product_variations) {
-                $variations = explode(",", $request->edit_product_variations);
-                foreach ($variations as $variationName) {
-                    $variation = Variation::firstOrCreate(["name" => trim($variationName), "slug" => Str::slug($variationName)]);
-                    $product->variations()->attach($variation->id);
-                }
-            }
+        $updateProductData = $request->only([
+            "edit_product_title",
+            "edit_product_content",
+            "edit_product_price",
+            "edit_product_stock_quantity",
+            "edit_product_color",
+            "edit_product_category",
+            "edit_product_is_featured",
+            "edit_product_featured_image",
+            "edit_product_images",
+            "edit_is_featured",
+            "edit_product_title",
+            "edit_product_variations"
+        ]);
+        try {
+            $this->productService->attemptUpdate($updateProductData, $request->id);
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
         return redirect()->route("product.edit", ["id" => $request->id]);
     }
+
     public function delete(Request $request)
     {
         Product::destroy($request->id);
@@ -140,21 +115,20 @@ class ProductController extends Controller
 
     public function priceControlEdit()
     {
-        return view("backoffice.edit-price");
+        $categoryData = Category::all();
+        return view("backoffice.edit-price", compact("categoryData"));
     }
 
     public function priceControlUpdate(Request $request)
     {
-        $amountUpdate = intval($request->bulk_product_price_update);
-        if($amountUpdate > 0 ) {
-            Product::query()->update([
-                "price" => DB::raw("price + $amountUpdate")
-            ]);
-        } elseif ($amountUpdate < 0 ) {
-            Product::query()->update([
-                "price" => DB::raw("price + $amountUpdate")
-            ]);
+        $updateProductPriceData = $request->bulk_product_price_update;
+        $categoryId = $request->bulk_product_price_category_update;
+        try {
+            $this->productService->attempProductPrice($updateProductPriceData, $categoryId);
+        } catch (Exception $e) {
+            $errorMessage = $e->getMessage();
+            return redirect()->route("product.price.edit")->withErrors($errorMessage);
         }
-        return redirect()->route("product.price.edit");
+        return redirect()->route("product.price.edit")->with("successMessage", "Ürünlerin fiyatı başarıyla güncellendi!");
     }
 }
