@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
+use App\Models\Color;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -17,9 +19,28 @@ class CategoryController extends Controller
 
     public function show(Request $request)
     {
+        $colorData = Color::all();
         $category = Category::where("slug", $request->slug)->firstOrFail();
-        $products = $category->products()->orderBy("created_at", "desc")->get();
-        return view("front.category", compact("products"));
+        $colorId = $request->input('product_color_filter');
+        $priceFilter = $request->input('product_price_filter');
+
+        $query = Product::where("category_id", $category->id);
+
+        if ($colorId) {
+            $query->where('color_id', $colorId);
+        }
+
+        if ($priceFilter === 'increased_price_filter') {
+            $query->orderBy('price', 'asc');
+        } elseif ($priceFilter === 'decreasing_price_filter') {
+            $query->orderBy('price', 'desc');
+        }
+        if ($colorId or $priceFilter) {
+            $products = $query->get();
+        } else {
+            $products = Product::where("category_id", $category->id)->get();
+        }
+        return view('front.category', compact('products', "colorData"));
     }
 
     public function create()

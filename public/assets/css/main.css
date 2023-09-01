@@ -302,3 +302,6 @@ span.price-badge.main-page-price{padding: 10px; border-radius: 5px;}
 .byshirts-cart:hover {background-color: #000000; color: #dadada }
 .byshirts-cart a {color: #000000}
 .dropdown-item:focus, .dropdown-item:hover{color: #ffffff; background-color: #198754}
+.filter{background-color: #dadada}
+.form-select:focus{border-color: #000000; box-shadow: none;}
+
